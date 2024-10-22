@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.DAO.UserDaoList;
+import web.Service.UserServiceImpl;
 import web.model.User;
 
 @Controller
@@ -20,26 +21,25 @@ import web.model.User;
 public class UserController {
 
 
-    private UserDaoList userDaoList;
+    private UserServiceImpl userService;
 
     public UserController() {
     }
 
-    @Autowired
-    public UserController(UserDaoList userDaoList) {
-        this.userDaoList = userDaoList;
+    public UserController(UserServiceImpl userService) {
+        this.userService = userService;
     }
 
     //выводятся всех юзеров
     @GetMapping(value = "")
     public String getAllUser(Model model) {
-        model.addAttribute("users", userDaoList.listUsers());
+        model.addAttribute("users", userService.findAll());
         return "users";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userDaoList.show(id));
+        model.addAttribute("user", userService.findOne(id));
         return "show";
     }
     //добавляем нового юзера.
@@ -53,14 +53,14 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "new";
         }
-        userDaoList.save(user);
+        userService.save(user);
         return "redirect:/users";
     }
 
     //изменять юзера.
     @GetMapping(value = "/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("user", userDaoList.show(id));
+        model.addAttribute("user", userService.findOne(id));
         return "edit";
     }
 
@@ -70,14 +70,14 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             return "edit";
         }
-        userDaoList.update(id, user);
+        userService.update(id, user);
         return "redirect:/users";
     }
 
     //удалять юзера.
     @DeleteMapping(value = "/{id}")
     public String deleteUser(@PathVariable("id") int id) {
-        userDaoList.delete(id);
+        userService.delete(id);
         return "redirect:/users";
     }
 }

@@ -1,10 +1,13 @@
 package web.DAO;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 import web.model.User;
 
 import java.util.List;
 
-public interface UserDaoList {
+@Repository
+public interface UserDaoList extends JpaRepository<User, Integer> {
 
     public List<User> listUsers();
 
