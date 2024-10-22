@@ -16,7 +16,7 @@ public class UserDaoListImpl implements UserDaoList {
 
     @Override
     public List<User> listUsers() {
-        return entityManager.createQuery("from User", User.class).getResultList();
+        return entityManager.createQuery("SELECT u FROM User u", User.class).getResultList();
     }
 
     public User show(int id) {

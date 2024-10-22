@@ -1,5 +1,6 @@
 package web.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -23,22 +24,21 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaRepositories(basePackages = "web.DAO") // укажите пакет, где будут находиться ваши репозитории
+@EnableJpaRepositories(basePackages = "web") // укажите пакет, где будут находиться ваши репозитории
 @PropertySource("classpath:application.properties")
 @ComponentScan("web")
 public class DatabaseConfig {
 
-    @Resource
+    @Autowired
     private Environment env;
 
     @Bean
-    public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource dataSource) {
+    public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
         LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
-        em.setDataSource(dataSource);
-        em.setPackagesToScan("web.model");
+        em.setDataSource(dataSource());
+        em.setPackagesToScan("web");
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
         em.setJpaProperties(getHibernateProperties());
-
         return em;
     }
 
@@ -62,13 +62,9 @@ public class DatabaseConfig {
     }
 
     public Properties getHibernateProperties() {
-        try {
             Properties properties = new Properties();
-            InputStream inputStream = getClass().getClassLoader().getResourceAsStream("application.properties");
-            properties.load(inputStream);
+            properties.put("hibernate.show_sql", env.getProperty("hibernate.show_sql"));
+            properties.put("hibernate.hbm2ddl.auto", env.getProperty("hibernate.hbm2ddl.auto"));
             return properties;
-        } catch (IOException e) {
-            throw new IllegalArgumentException("Could not load application.properties", e);
-        }
     }
 }
