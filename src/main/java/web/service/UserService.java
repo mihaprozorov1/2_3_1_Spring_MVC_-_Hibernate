@@ -1,4 +1,4 @@
-package web.Service;
+package web.service;
 
 import web.model.User;
 
@@ -10,5 +10,11 @@ public interface UserService {
 
     public List<User> listUsers(int count);
 
-    public int carSize();
+    public void save(User user);
+
+    public User getById(int id);
+
+    public void edit(User user);
+
+    public void delete(int id);
 }
