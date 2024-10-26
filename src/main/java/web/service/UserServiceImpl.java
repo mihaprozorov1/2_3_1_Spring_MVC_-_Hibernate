@@ -39,7 +39,7 @@ public class UserServiceImpl implements UserService {
     public User getById(int id) {
         return userDaoImpl.getById(id);
     }
-
+    @Transactional
     @Override
     public void edit(User user) {
         userDaoImpl.update(user);

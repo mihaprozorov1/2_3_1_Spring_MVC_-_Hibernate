@@ -12,6 +12,8 @@
     <th scope="col">Name</th>
     <th scope="col">Password</th>
     <th scope="col">Email</th>
+    <th scope="col">Update</th>
+    <th scope="col">Delete</th>
   </tr>
   </thead>
   <tbody>
@@ -20,7 +22,12 @@
     <td th:text="${user.name}">Name</td>
     <td th:text="${user.password}">Password</td>
     <td th:text="${user.email}">Email</td>
-  </tr>
+    <td>
+      <a th:href="@{'/edit/' + ${user.id}}" class="btn btn-warning">Update</a>
+    </td>
+    <td>
+      <a th:href="@{'/delete/' + ${user.id}}" class="btn btn-danger">Delete</a>
+    </td>
   </tbody>
 </table>
 <a href="/new">Create new user</a>
