@@ -19,16 +19,6 @@ public class UserServiceImpl implements UserService {
         return userDao.listUsers();
     }
 
-    @Override
-    public List<User> listUsers(int count) {
-        List<User> cars = userDao.listUsers();
-        if (count >= cars.size()) {
-            return cars;
-        } else {
-            return cars.subList(0, count);
-        }
-    }
-
     @Transactional
     @Override
     public void save(User user) {
