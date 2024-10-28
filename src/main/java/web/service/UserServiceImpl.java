@@ -12,16 +12,16 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserDao userDaoImpl;
+    private UserDao userDao;
 
     @Override
     public List<User> listUsers() {
-        return userDaoImpl.listUsers();
+        return userDao.listUsers();
     }
 
     @Override
     public List<User> listUsers(int count) {
-        List<User> cars = userDaoImpl.listUsers();
+        List<User> cars = userDao.listUsers();
         if (count >= cars.size()) {
             return cars;
         } else {
@@ -32,23 +32,23 @@ public class UserServiceImpl implements UserService {
     @Transactional
     @Override
     public void save(User user) {
-        userDaoImpl.save(user);
+        userDao.save(user);
     }
 
     @Override
     public User getById(int id) {
-        return userDaoImpl.getById(id);
+        return userDao.getById(id);
     }
 
     @Transactional
     @Override
     public void edit(User user) {
-        userDaoImpl.update(user);
+        userDao.update(user);
     }
 
     @Transactional
     @Override
     public void delete(int id) {
-        userDaoImpl.delete(id);
+        userDao.delete(id);
     }
 }
